@@ -38,7 +38,8 @@ router.get('/users/:username', (req, res) => {
     ExpressionAttributeValues: {
       ":user": req.params.username
     },
-    ProjectionExpression: "#th, #ca"
+    ProjectionExpression: "#th, #ca",
+    ScanIndexForward: false
   };
 
   dynamodb.query(params, (err, data) => {
@@ -136,7 +137,7 @@ router.delete('/users/:time/:username', (req, res) => {
 // router.put('/users/:username', (req, res) => {
 //   res.json({ "which": "which" })
 // });
-  // const { time, username } = req.params;
+// const { time, username } = req.params;
 
 //   var table = "Movies";
 
