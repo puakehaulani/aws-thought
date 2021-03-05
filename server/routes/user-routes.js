@@ -14,7 +14,13 @@ const table = "Thoughts";
 // get all users' thoughts
 router.get('/users', (req, res) => {
   const params = {
-    TableName: table
+    TableName: table,
+    Item: {
+      "username": req.body.username,
+      "createdAt": Date.now(),
+      "thought": req.body.thought,
+      "image": req.body.image  // add new image attribute
+    }
   };
   dynamodb.scan(params, (err, data) => {
     if (err) {
@@ -34,12 +40,13 @@ router.get('/users/:username', (req, res) => {
     ExpressionAttributeNames: {
       "#un": "username",
       "#ca": "createdAt",
-      "#th": "thought"
+      "#th": "thought",
+      "#img": "image"    // add the image attribute alias
     },
     ExpressionAttributeValues: {
       ":user": req.params.username
     },
-    ProjectionExpression: "#th, #ca",
+    ProjectionExpression: "#un, #th, #ca, #img",
     ScanIndexForward: false
   };
 
@@ -61,7 +68,8 @@ router.post('/users', (req, res) => {
     Item: {
       "username": req.body.username,
       "createdAt": Date.now(),
-      "thought": req.body.thought
+      "thought": req.body.thought,
+      "image": req.body.image  // add new image attribute
     }
   };
   dynamodb.put(params, (err, data) => {
