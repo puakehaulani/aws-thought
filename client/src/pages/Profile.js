@@ -36,7 +36,7 @@ const Profile = props => {
       }
     };
     fetchData();
-  }, [thoughts]);
+  }, []);
 
   return (
     <div>
